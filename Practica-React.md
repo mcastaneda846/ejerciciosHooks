@@ -871,9 +871,7 @@ El hook debe recibir una URL y retornar:
 
 ```js
 {
-  data,
-  loading,
-  error
+  (data, loading, error);
 }
 ```
 
@@ -985,18 +983,18 @@ Este ejercicio permite medir si el estudiante entiende:
 
 # Criterios generales de evaluación
 
-| Criterio | Peso |
-|---|---:|
-| Uso correcto de `useState` | 20% |
-| Formularios controlados | 10% |
-| Uso correcto de `useEffect` | 20% |
-| Limpieza de efectos | 10% |
-| Manejo correcto de datos derivados | 10% |
-| Uso adecuado de `useMemo` | 10% |
-| Uso adecuado de `useRef` | 5% |
-| Uso adecuado de `useReducer` | 5% |
-| Uso adecuado de `useContext` | 5% |
-| Claridad y separación de componentes | 5% |
+| Criterio                             | Peso |
+| ------------------------------------ | ---: |
+| Uso correcto de `useState`           |  20% |
+| Formularios controlados              |  10% |
+| Uso correcto de `useEffect`          |  20% |
+| Limpieza de efectos                  |  10% |
+| Manejo correcto de datos derivados   |  10% |
+| Uso adecuado de `useMemo`            |  10% |
+| Uso adecuado de `useRef`             |   5% |
+| Uso adecuado de `useReducer`         |   5% |
+| Uso adecuado de `useContext`         |   5% |
+| Claridad y separación de componentes |   5% |
 
 ---
 
@@ -1016,10 +1014,8 @@ Correcto:
 ```js
 setTasks((prevTasks) =>
   prevTasks.map((task) =>
-    task.id === taskId
-      ? { ...task, completed: !task.completed }
-      : task
-  )
+    task.id === taskId ? { ...task, completed: !task.completed } : task,
+  ),
 );
 ```
 
@@ -1058,7 +1054,7 @@ Mejor:
 ```js
 const totalProducts = cart.reduce(
   (total, product) => total + product.quantity,
-  0
+  0,
 );
 ```
 
