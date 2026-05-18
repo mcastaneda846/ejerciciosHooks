@@ -10,7 +10,7 @@ export default function UserSearch() {
 
   const [search, setSearch] = useState("");
 
-  function handleChange(e) {
+function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
     setSearch(e.target.value);
   }
 

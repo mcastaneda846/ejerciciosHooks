@@ -1,9 +1,20 @@
 import { useState, useEffect } from "react";
 
+type User = {
+  id: number;
+  name: string;
+  email: string;
+  address: {
+    city: string;
+  };
+};
+
 export default function UserList() {
-  const [users, setUsers] = useState([]);
+  const [users, setUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+
+  // puede ser string o null
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     let isMounted = true;
@@ -25,7 +36,7 @@ export default function UserList() {
           throw new Error("error al cargar usuarios");
         }
 
-        const data = await response.json();
+        const data: User[] = await response.json();
 
         // solo actualiza si el componente sigue montado
         if (isMounted) {

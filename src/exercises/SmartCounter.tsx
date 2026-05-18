@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 export function SmartCounter() {
-  const [counter, setCounter] = useState(0);
+  const [counter, setCounter] = useState<number>(0);
 
   if (counter > 10) {
     alert("Has llegado al límite recomendado");

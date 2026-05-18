@@ -7,7 +7,7 @@ export default function Timer() {
   const [isRunning, setIsRunning] = useState(false);
 
   // referencia para guardar el intervalo
-  const intervalRef = useRef(null);
+  const intervalRef = useRef<number | null>(null);
 
   // iniciar o continuar el temporizador
   function handleStart() {
@@ -15,7 +15,7 @@ export default function Timer() {
 
     setIsRunning(true);
 
-    intervalRef.current = setInterval(() => {
+    intervalRef.current = window.setInterval(() => {
       setSeconds((prev) => prev + 1);
     }, 1000);
   }
@@ -24,7 +24,7 @@ export default function Timer() {
   function handlePause() {
     setIsRunning(false);
 
-    if (intervalRef.current) {
+    if (intervalRef.current !== null) {
       clearInterval(intervalRef.current);
       intervalRef.current = null;
     }
@@ -35,7 +35,7 @@ export default function Timer() {
     setSeconds(0);
     setIsRunning(false);
 
-    if (intervalRef.current) {
+    if (intervalRef.current !== null) {
       clearInterval(intervalRef.current);
       intervalRef.current = null;
     }
@@ -44,11 +44,12 @@ export default function Timer() {
   // limpieza al desmontar componente
   useEffect(() => {
     return () => {
-      if (intervalRef.current) {
+      if (intervalRef.current !== null) {
         clearInterval(intervalRef.current);
       }
     };
   }, []);
+
 
   return (
     <div>

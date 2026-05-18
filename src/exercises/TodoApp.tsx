@@ -1,8 +1,14 @@
 import { useState, useEffect } from "react";
 
+type Task = {
+  id: string;
+  title: string;
+  completed: boolean;
+};
+
 export default function TodoApp() {
   // ESTADO TAREAS
-  const [tasks, setTasks] = useState([]);
+  const [tasks, setTasks] = useState<Task[]>([]);
 
   // INPUT NUEVA TAREA
   const [title, setTitle] = useState("");
@@ -25,7 +31,7 @@ export default function TodoApp() {
   }, [tasks]);
 
   // CREAR TAREA
-  function addTask(e) {
+  function addTask(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
     if (title.trim() === "") return;
@@ -41,7 +47,7 @@ export default function TodoApp() {
   }
 
   // COMPLETAR / DESMARCAR
-  function toggleTask(id) {
+  function toggleTask(id: Task["id"]) {
     const updated = tasks.map((task) =>
       task.id === id ? { ...task, completed: !task.completed } : task,
     );
@@ -50,7 +56,7 @@ export default function TodoApp() {
   }
 
   // ELIMINAR TAREA
-  function deleteTask(id) {
+  function deleteTask(id: Task["id"]) {
     const updated = tasks.filter((task) => task.id !== id);
     setTasks(updated);
   }

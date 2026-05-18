@@ -1,13 +1,20 @@
 import { useState, useMemo } from "react";
 
+type Product = {
+  id: number;
+  name: string;
+  price: number;
+  quantity: number;
+};
+
 export default function ShoppingCart() {
-  const [cart, setCart] = useState([
+  const [cart, setCart] = useState<Product[]>([
     { id: 1, name: "Teclado", price: 120, quantity: 1 },
     { id: 2, name: "Mouse", price: 80, quantity: 2 },
     { id: 3, name: "Monitor", price: 500, quantity: 1 },
   ]);
 
-  function increaseQuantity(id) {
+  function increaseQuantity(id: number) {
     const updated = cart.map((product) =>
       product.id === id
         ? { ...product, quantity: product.quantity + 1 }
@@ -17,7 +24,7 @@ export default function ShoppingCart() {
     setCart(updated);
   }
 
-  function decreaseQuantity(id) {
+  function decreaseQuantity(id: number) {
     const updated = cart.map((product) =>
       product.id === id
         ? {
@@ -30,7 +37,7 @@ export default function ShoppingCart() {
     setCart(updated);
   }
 
-  function removeProduct(id) {
+  function removeProduct(id: number) {
     const updated = cart.filter((product) => product.id !== id);
     setCart(updated);
   }

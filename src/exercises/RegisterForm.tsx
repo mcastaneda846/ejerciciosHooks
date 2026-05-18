@@ -1,7 +1,7 @@
 import { useState } from "react";
+import type { ChangeEvent } from "react";
 
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-let error = ""; // Validación general
 
 export default function RegisterForm() {
   const [formData, setFormData] = useState({
@@ -11,18 +11,23 @@ export default function RegisterForm() {
     confirmarContraseña: "",
   });
 
-  // sirve para mostrar el resumen, SOLO cuando el usuario envíe el form
   const [enviado, setEnviado] = useState(false);
 
-  function handleChange(e) {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
+  // CHANGE
+  function handleChange(e: ChangeEvent<HTMLInputElement>) {
+    const { name, value } = e.target;
+
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
   }
 
+  // ERROR
+  let error = "";
+
   // Validar contraseña
-  if (formData.contraseña.length < 8 && formData.contraseña !== "") {
+  if (formData.contraseña !== "" && formData.contraseña.length < 8) {
     error = "La contraseña debe tener mínimo 8 caracteres";
   }
 
@@ -39,23 +44,19 @@ export default function RegisterForm() {
     error = "El correo no tiene un formato válido";
   }
 
-  // Validar todo el formulario
+  // FORMULARIO VÁLIDO
   const formularioValido =
-    formData.nombre !== "" &&
-    formData.correo !== "" &&
-    formData.correo.includes("@") &&
+    formData.nombre.trim() !== "" &&
+    emailRegex.test(formData.correo) &&
     formData.contraseña.length >= 8 &&
     formData.contraseña === formData.confirmarContraseña;
 
   // SUBMIT
-  function handleSubmit(e) {
-    e.preventDefault(); // evita recargar página
+  function handleSubmit(e: React.SyntheticEvent<HTMLFormElement>) {
+    e.preventDefault();
 
-    if (!formularioValido) {
-      // si NO es válido se detiene submit
-      return;
-    }
-    // mostrar resumen
+    if (!formularioValido) return;
+
     setEnviado(true);
   }
 
@@ -63,6 +64,7 @@ export default function RegisterForm() {
     <div>
       <form onSubmit={handleSubmit}>
         <p>Nombre</p>
+
         <input
           name="nombre"
           type="text"
@@ -73,6 +75,7 @@ export default function RegisterForm() {
         />
 
         <p>Correo electrónico</p>
+
         <input
           name="correo"
           type="email"
@@ -83,6 +86,7 @@ export default function RegisterForm() {
         />
 
         <p>Contraseña</p>
+
         <input
           name="contraseña"
           type="password"
@@ -92,6 +96,7 @@ export default function RegisterForm() {
         />
 
         <p>Confirmar contraseña</p>
+
         <input
           name="confirmarContraseña"
           type="password"
@@ -99,7 +104,8 @@ export default function RegisterForm() {
           onChange={handleChange}
           required
         />
-        <p>{error}</p>
+
+        {error && <p>{error}</p>}
 
         <br />
 
@@ -108,7 +114,6 @@ export default function RegisterForm() {
         </button>
       </form>
 
-      {/* RESUMEN */}
       {enviado && (
         <div>
           <h2>Usuario registrado</h2>

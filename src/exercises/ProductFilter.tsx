@@ -1,8 +1,16 @@
 import { useState, useMemo } from "react";
 
+type Product = {
+  id: number;
+  name: string;
+  category: string;
+  price: number;
+  stock: number;
+};
+
 export default function ProductFilter() {
   // productos base
-  const [products] = useState([
+  const [products] = useState<Product[]>([
     { id: 1, name: "Laptop", category: "Tecnología", price: 2500, stock: 5 },
     { id: 2, name: "Mouse", category: "Tecnología", price: 80, stock: 0 },
     { id: 3, name: "Camiseta", category: "Ropa", price: 40, stock: 10 },
